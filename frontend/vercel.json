@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "zorvyn-finance-frontend",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
