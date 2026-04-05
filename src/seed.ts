@@ -68,13 +68,12 @@ async function main() {
   // ── Create Financial Records (spanning 6 months for trends) ──
   const now = new Date();
   const records = [
-    // Current month
+    // Current month (dated on or before today, Apr 5)
     { amount: 8500, type: 'INCOME', category: 'Salary', date: new Date(now.getFullYear(), now.getMonth(), 1), description: 'Monthly base salary', notes: 'Regular monthly salary payment', userId: admin.id },
-    { amount: 2000, type: 'INCOME', category: 'Freelance', date: new Date(now.getFullYear(), now.getMonth(), 5), description: 'Web development project', notes: 'Client: TechCorp dashboard project', userId: admin.id },
+    { amount: 2000, type: 'INCOME', category: 'Freelance', date: new Date(now.getFullYear(), now.getMonth(), 2), description: 'Web development project', notes: 'Client: TechCorp dashboard project', userId: admin.id },
     { amount: 1800, type: 'EXPENSE', category: 'Rent', date: new Date(now.getFullYear(), now.getMonth(), 3), description: 'Office space rent', notes: 'Monthly office rent payment', userId: admin.id },
-    { amount: 350, type: 'EXPENSE', category: 'Utilities', date: new Date(now.getFullYear(), now.getMonth(), 7), description: 'Electricity and internet', notes: 'Combined utility bill', userId: admin.id },
-    { amount: 200, type: 'EXPENSE', category: 'Food', date: new Date(now.getFullYear(), now.getMonth(), 8), description: 'Team lunch', notes: 'Weekly team lunch expense', userId: admin.id },
-    { amount: 500, type: 'EXPENSE', category: 'Marketing', date: new Date(now.getFullYear(), now.getMonth(), 10), description: 'Social media advertising', notes: 'Facebook and Google ads', userId: admin.id },
+    { amount: 350, type: 'EXPENSE', category: 'Utilities', date: new Date(now.getFullYear(), now.getMonth(), 4), description: 'Electricity and internet', notes: 'Combined utility bill', userId: admin.id },
+    { amount: 200, type: 'EXPENSE', category: 'Food', date: new Date(now.getFullYear(), now.getMonth(), 5), description: 'Team lunch', notes: 'Weekly team lunch expense', userId: admin.id },
 
     // Last month
     { amount: 8500, type: 'INCOME', category: 'Salary', date: new Date(now.getFullYear(), now.getMonth() - 1, 1), description: 'Monthly base salary', notes: 'Regular monthly salary', userId: admin.id },

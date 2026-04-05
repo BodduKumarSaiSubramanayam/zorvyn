@@ -70,7 +70,10 @@ export class DashboardService {
   static async getRecentActivity(limit: number = 10) {
     return prisma.financialRecord.findMany({
       where: { isDeleted: false },
-      orderBy: { date: 'desc' },
+      orderBy: [
+        { createdAt: 'desc' }, // Sort by input time first to show "most recently added"
+        { date: 'desc' }       // Then by financial date
+      ],
       take: limit,
       include: {
         user: { select: { id: true, name: true, email: true } },

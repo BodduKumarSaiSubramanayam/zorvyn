@@ -12,9 +12,12 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const validatedData = registerSchema.parse(req.body);
     const result = await AuthService.register(validatedData);
 
-    res.status(201).json(
-      successResponse(result, 'User registered successfully.')
-    );
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully.',
+      user: result.user,
+      token: result.token,
+    });
   } catch (error) {
     next(error);
   }
@@ -25,9 +28,12 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const validatedData = loginSchema.parse(req.body);
     const result = await AuthService.login(validatedData);
 
-    res.status(200).json(
-      successResponse(result, 'Login successful.')
-    );
+    res.status(200).json({
+      success: true,
+      message: 'Login successful.',
+      user: result.user,
+      token: result.token,
+    });
   } catch (error) {
     next(error);
   }

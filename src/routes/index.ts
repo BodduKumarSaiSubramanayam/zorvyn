@@ -15,6 +15,7 @@ import {
   getMonthlyTrends,
   getWeeklyTrends,
   getFullDashboard,
+  getTrendsForFrontend,
 } from '../controllers/dashboard.controller';
 import { authenticate, authorize } from '../middleware/auth';
 import { authLimiter } from '../middleware/rateLimiter';
@@ -65,6 +66,12 @@ router.get(
   authenticate,
   authorize([ROLES.VIEWER, ROLES.ANALYST, ROLES.ADMIN]),
   getSummary
+);
+router.get(
+  '/dashboard/trends',
+  authenticate,
+  authorize([ROLES.VIEWER, ROLES.ANALYST, ROLES.ADMIN]),
+  getTrendsForFrontend
 );
 router.get(
   '/dashboard/recent',

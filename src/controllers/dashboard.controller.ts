@@ -10,9 +10,21 @@ import { successResponse } from '../lib/response';
 export const getSummary = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const summary = await DashboardService.getSummary();
-    res.status(200).json(
-      successResponse(summary, 'Dashboard summary retrieved successfully.')
-    );
+    
+    // Flatten categoryBreakdown to categoryWise for frontend compatibility
+    const categoryWise: Record<string, number> = {};
+    Object.entries(summary.categoryBreakdown).forEach(([cat, data]) => {
+      categoryWise[cat] = data.net;
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Dashboard summary retrieved successfully.',
+      summary: {
+        ...summary,
+        categoryWise,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -59,6 +71,34 @@ export const getFullDashboard = async (req: AuthRequest, res: Response, next: Ne
     const dashboard = await DashboardService.getFullDashboard();
     res.status(200).json(
       successResponse(dashboard, 'Full dashboard data retrieved successfully.')
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Compatibility endpoint for the dashboard trends (used by frontend).
+ */
+export const getTrendsForFrontend = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const [recentActivity, monthlyTrends] = await Promise.all([
+      DashboardService.getRecentActivity(10),
+      DashboardService.getMonthlyTrends(12),
+    ]);
+
+    // Map monthly trends to the object structure expected by the frontend type definition
+    // interface TrendData { monthlyTrends: Record<string, { income: number; expenses: number }> }
+    const trendsObj: Record<string, { income: number; expenses: number }> = {};
+    monthlyTrends.forEach((t) => {
+      trendsObj[t.period] = { income: t.income, expenses: t.expenses };
+    });
+
+    res.status(200).json(
+      successResponse({
+        recentActivity,
+        monthlyTrends: trendsObj,
+      }, 'Dashboard trends retrieved successfully.')
     );
   } catch (error) {
     next(error);
