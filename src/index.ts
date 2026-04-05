@@ -15,7 +15,11 @@ const port = process.env.PORT || 3000;
 
 // ── Security Middleware ──
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true
+}));
 
 // ── Rate Limiting ──
 app.use('/api', apiLimiter);
